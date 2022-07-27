@@ -1,0 +1,21 @@
+version: '2.1'
+services:
+  gmc300:
+    privileged: true
+    build: ./balena-gmc300
+    restart: always
+    environment:
+      - MQTT_TOPIC=CPM_ALERT
+      - CPM_LIMIT=50
+      - MQTT_HOST=tg
+      - MQTT_USER=balena
+      - MQTT_PASS=balena
+  tg:
+    build: ./telegram-block
+    restart: always
+    environment:
+      - TG_TOKEN=0000000000:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - TG_CHAT_ID=000000000
+      - TG_SEND_TOPIC=CPM_ALERT
+    ports:
+      - "1883:1883"
